@@ -7,6 +7,6 @@ import (
 
 func main() {
 
-	fmt.Printf(stringutil.Reverse("hello world"))
+	fmt.Printf(stringutil.Reverse("hello world！"))
 
 }
