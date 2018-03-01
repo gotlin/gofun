@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-    "github.com/golang/example/stringutil"
-)
+ )
 
 func main() {
 
-	fmt.Printf(stringutil.Reverse("hello world！"))
+
+	fmt.Printf("%v",3*(3-float32(1))*(3-float32(2))*(3-float32(3)))
 
 }

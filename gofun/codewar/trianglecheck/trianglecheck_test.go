@@ -13,7 +13,7 @@ func TestCalcPerimeter(t *testing.T) {
 }
 
 func TestCalcArea(t *testing.T) {
-	res := CalcArea(1, 2, 3)
+	res := CalcArea(3, 4, 5)
 	fmt.Println(res)
 
 }
