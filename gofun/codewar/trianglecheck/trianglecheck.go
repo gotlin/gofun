@@ -21,3 +21,4 @@ func CalcArea(a, b, c int) float64 {
 func EquableTriangle(a, b, c int) bool {
 	return CalcPerimeter(a, b, c) == CalcArea(a, b, c)
 }
+
