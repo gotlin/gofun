@@ -2,14 +2,24 @@ package LongestCommonPrefix
 
 func LongestCommonPrefix(strs []string) string {
 
-	res := make([]rune, 1)
+	row := len(strs)
+
+	if row == 0 {
+		return ""
+	}
+
+	if row == 1 {
+		return strs[0]
+	}
+
+	res := make([]rune, 0)
 
 	for i, char := range strs[0] {
+
 		comm := true
 		for _, v := range strs[1:] {
 
-			chars := []rune(v)
-			if char != chars[i] {
+			if chars := []rune(v); len(chars) < i+1 || char != chars[i] {
 				comm = false
 				break
 			}

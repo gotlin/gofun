@@ -5,11 +5,11 @@ import "fmt"
 
 func TestLongestCommonPrefix(t *testing.T) {
 
-	strs:=make([]string,1)
-	strs = append(strs,"a")
+	strs:=make([]string,0)
 	strs = append(strs,"ab")
+	strs = append(strs,"abd")
 	strs = append(strs,"abc")
 
-	res:=LongestCommonPrefix(strs)
+	res:=LongestCommonPrefix([]string{""})
 	fmt.Println(res)
 }
