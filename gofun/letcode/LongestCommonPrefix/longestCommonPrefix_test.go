@@ -10,6 +10,6 @@ func TestLongestCommonPrefix(t *testing.T) {
 	strs = append(strs,"abd")
 	strs = append(strs,"abc")
 
-	res:=LongestCommonPrefix([]string{""})
+	res:=LongestCommonPrefix(strs)
 	fmt.Println(res)
 }

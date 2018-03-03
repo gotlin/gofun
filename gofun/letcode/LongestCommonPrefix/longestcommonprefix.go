@@ -12,6 +12,14 @@ func LongestCommonPrefix(strs []string) string {
 		return strs[0]
 	}
 
+	minLen := row
+
+	for _, v := range strs {
+		if len(v) < minLen {
+			minLen = len(v)
+		}
+	}
+
 	res := make([]rune, 0)
 
 	for i, char := range strs[0] {
