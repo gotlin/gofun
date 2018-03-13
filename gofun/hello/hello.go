@@ -3,6 +3,6 @@ package hello
 import "fmt"
 
 
-func hello() {
+func Hello() {
 	fmt.Printf("hello, world1")
 }
