@@ -1,32 +1,26 @@
-package chat
+package main
 
 import (
 	"net"
 	"fmt"
 	"bufio"
-	"io"
-	"os"
 	"log"
 )
 
-func Start() {
-
+func main() {
 	listener, err := net.Listen("tcp", "localhost:8000")
-	if err == nil {
-		fmt.Printf("start server error: %v", err)
+	if err != nil {
+		log.Fatal(err)
 	}
-
+	go broadcaster()
 	for {
 		conn, err := listener.Accept()
-		if err == nil {
-			fmt.Printf("start server error: %v", err)
+		if err != nil {
+			log.Print(err)
 			continue
 		}
-
 		go handleConn(conn)
-
 	}
-
 }
 
 type client chan<- string // an outgoing message channel
@@ -69,9 +63,11 @@ func handleConn(conn net.Conn) {
 	input := bufio.NewScanner(conn)
 	for input.Scan() {
 		messages <- who + ": " + input.Text()
+
 	}
 	// NOTE: ignoring potential errors from input.Err()
 
+	fmt.Println("Ctrl+C")
 	leaving <- ch
 	messages <- who + " has left"
 	conn.Close()
@@ -83,24 +79,3 @@ func clientWriter(conn net.Conn, ch <-chan string) {
 	}
 }
 
-func Client() {
-	conn, err := net.Dial("tcp", "localhost:8000")
-	if err != nil {
-		log.Fatal(err)
-	}
-	done := make(chan struct{})
-	go func() {
-		io.Copy(os.Stdout, conn) // NOTE: ignoring errors
-		log.Println("done")
-		done <- struct{}{} // signal the main goroutine
-	}()
-	mustCopy(conn, os.Stdin)
-	conn.Close()
-	<-done // wait for background goroutine to finish
-}
-
-func mustCopy(dst io.Writer, src io.Reader) {
-	if _, err := io.Copy(dst, src); err != nil {
-		log.Fatal(err)
-	}
-}
