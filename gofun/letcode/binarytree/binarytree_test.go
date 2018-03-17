@@ -17,3 +17,9 @@ func TestLevelOrder(t *testing.T) {
 	res := LevelOrder(tree)
 	fmt.Println(res)
 }
+
+func TestIsSymmetric(t *testing.T) {
+	var tree = &TreeNode{1, &TreeNode{2, nil, nil}, &TreeNode{2, nil, nil}}
+	fmt.Println(IsSymmetric(tree))
+
+}

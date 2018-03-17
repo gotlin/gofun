@@ -9,11 +9,17 @@ var lock sync.Mutex
 var m map[string]string
 var s []string
 
+type T struct{
+	a *[]string
+}
 
 func main() {
-	s1 := [][]int{{0, 1, 2, 3},{},{1}}
 
-	fmt.Println(s1)
+	t1:=T{}
+	t2:=T{}
+
+	fmt.Println(t1.a)
+	fmt.Println(t1.a==t2.a)
 }
 
 func CalcPerimeter(a, b, c int) int {

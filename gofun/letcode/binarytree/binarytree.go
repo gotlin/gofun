@@ -78,12 +78,11 @@ func PostorderTraversal(root *TreeNode) []int {
 
 func LevelOrder(root *TreeNode) [][]int {
 
-
 	var toTra []*TreeNode
 	var isEnd = false
 	var res [][]int
 
-	if nil == root{
+	if nil == root {
 		return res
 	}
 
@@ -118,4 +117,42 @@ func LevelOrder(root *TreeNode) [][]int {
 
 	return res
 
+}
+
+func maxDepth(root *TreeNode) int {
+
+	if root == nil {
+		return 0
+	}
+
+	leftDp := 1 + maxDepth(root.Left)
+	rightDp := 1 + maxDepth(root.Right)
+
+	if leftDp > rightDp {
+		return leftDp
+	} else {
+		return rightDp
+	}
+}
+
+func IsSymmetric(root *TreeNode) bool {
+
+	if root == nil{
+		return true
+	}
+	return is(root.Left,root.Right)
+}
+
+func is(left,right *TreeNode) bool{
+
+	if left == nil || right ==nil{
+		return left == right
+	}
+
+	if left.Val != right.Val{
+		return false
+
+	}
+
+	return is(left.Left,right.Right)&&is(left.Right,right.Left)
 }
