@@ -53,8 +53,6 @@ func InorderTraversal(root *TreeNode) []int {
 	return res
 }
 
-
-
 func PostorderTraversal(root *TreeNode) []int {
 
 	var res []int
@@ -68,7 +66,6 @@ func PostorderTraversal(root *TreeNode) []int {
 		res = append(res, PostorderTraversal(left)...)
 	}
 
-
 	right := root.Right
 	if right != nil {
 		res = append(res, PostorderTraversal(right)...)
@@ -77,4 +74,48 @@ func PostorderTraversal(root *TreeNode) []int {
 	res = append(res, root.Val)
 
 	return res
+}
+
+func LevelOrder(root *TreeNode) [][]int {
+
+
+	var toTra []*TreeNode
+	var isEnd = false
+	var res [][]int
+
+	if nil == root{
+		return res
+	}
+
+	toTra = append(toTra, root)
+
+	for ; !isEnd; {
+		var level []int
+		var toTraTmp []*TreeNode
+
+		for _, node := range toTra {
+			level = append(level, node.Val)
+
+			if nil != node.Left {
+				toTraTmp = append(toTraTmp, node.Left)
+			}
+			if nil != node.Right {
+
+				toTraTmp = append(toTraTmp, node.Right)
+			}
+		}
+
+		res = append(res, level)
+
+		if len(toTraTmp) > 0 {
+			toTra = toTraTmp
+			isEnd = false
+		} else {
+			isEnd = true
+		}
+
+	}
+
+	return res
+
 }
