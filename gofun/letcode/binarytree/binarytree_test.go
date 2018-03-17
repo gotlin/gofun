@@ -23,3 +23,9 @@ func TestIsSymmetric(t *testing.T) {
 	fmt.Println(IsSymmetric(tree))
 
 }
+
+func TestAsPathSum(t *testing.T) {
+	var tree = &TreeNode{1, &TreeNode{2, nil, nil}, &TreeNode{2, nil, nil}}
+	fmt.Println(AsPathSum(tree,3))
+
+}

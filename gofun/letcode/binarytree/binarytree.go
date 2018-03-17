@@ -137,22 +137,41 @@ func maxDepth(root *TreeNode) int {
 
 func IsSymmetric(root *TreeNode) bool {
 
-	if root == nil{
+	if root == nil {
 		return true
 	}
-	return is(root.Left,root.Right)
+	return is(root.Left, root.Right)
 }
 
-func is(left,right *TreeNode) bool{
+func is(left, right *TreeNode) bool {
 
-	if left == nil || right ==nil{
+	if left == nil || right == nil {
 		return left == right
 	}
 
-	if left.Val != right.Val{
+	if left.Val != right.Val {
 		return false
 
 	}
 
-	return is(left.Left,right.Right)&&is(left.Right,right.Left)
+	return is(left.Left, right.Right) && is(left.Right, right.Left)
+}
+
+func AsPathSum(root *TreeNode, sum int) bool {
+
+	var fun func(node *TreeNode, tem int) bool
+	fun = func(node *TreeNode, tem int) bool {
+
+		if node == nil {
+			return false
+		}
+
+		if tem+node.Val == sum && node.Left == nil && node.Right == nil {
+			return true
+		}
+
+		return fun(node.Left, tem+node.Val) || fun(node.Right, tem+node.Val)
+	}
+
+	return fun(root, 0)
 }
