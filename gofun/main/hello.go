@@ -1,20 +1,34 @@
 package main
 
 import (
-	"github.com/hu17889/go_spider/example/github_repo_page_processor/main"
+	"github.com/bitly/go-simplejson"
 	"fmt"
 )
-
-
 
 func main() {
 
 
-	A:=T{"a","b"}
-	B:=A
-	B.a = "b"
+	js, err := simplejson.NewJson([]byte(`{
+		"test": {
+			"string_array": ["asdf", "ghjk", "zxcv"],
+			"string_array_null": ["abc", null, "efg"],
+			"array": [1, "2", 3],
+			"arraywithsubs": [{"subkeyone": 1},
+			{"subkeytwo": 2, "subkeythree": 3}],
+			"int": 10,
+			"float": 5.150,
+			"string": "simplejson",
+			"bool": true,
+			"sub_obj": {"a": 1}
+		}
+	}`))
 
-	fmt.Println(A)
-	fmt.Println(B)
+	if err != nil{
+
+	}
+
+	js.Get("test").Set("float",1.11)
+
+	fmt.Println(js.Get("test").Get("float").MustFloat64())
 
 }
