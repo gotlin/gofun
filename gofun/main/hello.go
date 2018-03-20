@@ -9,17 +9,22 @@ var lock sync.Mutex
 var m map[string]string
 var s []string
 
-type T struct{
-	a *[]string
+type T struct {
+	a string
+	b string
 }
 
+var Wg sync.WaitGroup
 func main() {
 
-	t1:=T{}
-	t2:=T{}
 
-	fmt.Println(t1.a)
-	fmt.Println(t1.a==t2.a)
+	A:=T{"a","b"}
+	B:=A
+	B.a = "b"
+
+	fmt.Println(A)
+	fmt.Println(B)
+
 }
 
 func CalcPerimeter(a, b, c int) int {
