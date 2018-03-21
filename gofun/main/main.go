@@ -1,26 +1,30 @@
 package main
 
 import (
-	"os"
-	"bufio"
 	"fmt"
-	"io"
+	"log"
+
+	"github.com/PuerkitoBio/goquery"
 )
 
-func main() {
+func ExampleScrape() {
+	doc, err := goquery.NewDocument("http://www.baidu.com/")
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	io.Copy(os.Stdout,os.Stdin)
+	fmt.Printf(doc.Text())
+
+	// Find the review items
+	doc.Find("a").Each(func(i int, s *goquery.Selection) {
+		// For each item found, get the band and title
+		href, _ := s.Attr("href")
+
+		fmt.Println(s.Text())
+		fmt.Println("href:"+href)
+	})
 }
 
-func ReadInput(){
-
-	inputReader := bufio.NewReader(os.Stdin)
-	fmt.Printf("Please enter your name:")
-	input, err := inputReader.ReadString('\n')
-	if err != nil {
-		fmt.Println("There were errors reading, exiting program.")
-		return
-	}
-	fmt.Println(input)
-
+func main() {
+	ExampleScrape()
 }

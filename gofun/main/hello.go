@@ -29,6 +29,6 @@ func main() {
 
 	js.Get("test").Set("float",1.11)
 
-	fmt.Println(js.Get("test").Get("float").MustFloat64())
+	fmt.Println(js.GetPath("test","float1").Float64())
 
 }
