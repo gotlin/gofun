@@ -8,7 +8,7 @@ import (
 )
 
 func ExampleScrape() {
-	doc, err := goquery.NewDocument("http://www.baidu.com/")
+	doc, err := goquery.NewDocument("https://sale.fenqile.com/VlVdQklWVFVFSFxcWUFI/index.html")
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -12,7 +12,7 @@ type MyProcesser struct{}
 func (mp *MyProcesser) Process(p *page.Page) {
 
 	doc:=p.GetHtmlParser()
-	doc.Find("[href]").Each(func(i int, chi *goquery.Selection) {
+	doc.Find("a").Each(func(i int, chi *goquery.Selection) {
 
 		href, _ := chi.Attr("href")
 
@@ -30,7 +30,7 @@ func main() {
 	p := MyProcesser{}
 
 	spider.NewSpider(&p, "res").
-		AddUrl("http://www.baidu.com/", "html"). // start url, html is the responce type ("html" or "json" or "jsonp" or "text")
+		AddUrl("https://sale.fenqile.com/VlVdQklWVFVFSFxcWUFI/index.html", "html"). // start url, html is the responce type ("html" or "json" or "jsonp" or "text")
 		AddPipeline(pipeline.NewPipelineConsole()). // Print result to std output
 		SetSleepTime("rand", 100, 300). // Sleep time between 1s and 3s.
 		Run()
