@@ -4,7 +4,7 @@ import (
 	"gofun/fun/scrago/data"
 	"net/http"
 	"log"
-	"io/ioutil"
+	"github.com/PuerkitoBio/goquery"
 )
 
 type HttpDownloader struct {
@@ -12,6 +12,8 @@ type HttpDownloader struct {
 }
 
 func (h *HttpDownloader) Download(req *data.Request) (*data.Response, error) {
+
+	log.Println("downloading " + req.Url)
 
 	httpReq, err := http.NewRequest("GET", req.Url, nil)
 	if err != nil {
@@ -24,17 +26,29 @@ func (h *HttpDownloader) Download(req *data.Request) (*data.Response, error) {
 		log.Panicln(err)
 	}
 
-	body, err := ioutil.ReadAll(httpResp.Body)
+	if httpResp.StatusCode != http.StatusOK {
+		return nil, nil
+	}
+
+	doc, err := goquery.NewDocumentFromReader(httpResp.Body)
 
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 	}
 
 	defer httpResp.Body.Close()
 
 	resp := &data.Response{}
 
-	resp.StrBody = string(body)
+	resp.StrBody = doc.Text()
+
+	//log.Println("download text res " + resp.StrBody)
+
+	resp.HtmlBody = doc
+
+	resp.HttpResponse = httpResp
+
+	resp.Request = req
 
 	return resp, nil
 }

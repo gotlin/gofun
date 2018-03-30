@@ -5,6 +5,10 @@ import (
 	"gofun/fun/scrago/downloader"
 	"gofun/fun/scrago/pipeline"
 	"gofun/fun/scrago/processor"
+	"gofun/fun/scrago/goropool"
+	"gofun/fun/scrago/data"
+	"time"
+	"log"
 )
 
 type Scrago struct {
@@ -12,8 +16,7 @@ type Scrago struct {
 	dow  downloader.Downloader
 	pip  pipeline.Pipeline
 	prc  processor.Processor
-	pool chan struct{}
-	dura int32
+	pool goropool.GoroPool
 }
 
 func New() *Scrago {
@@ -41,26 +44,25 @@ func (s *Scrago) Processor(prc processor.Processor) *Scrago {
 	return s
 }
 
-func (s *Scrago) Pool(curr int) *Scrago {
-	//TODO 不能指针类型？
-	s.pool = make(chan struct{}, curr)
+func (s *Scrago) GoroPool(curr int) *Scrago {
+
+	s.pool = goropool.New(curr)
 
 	return s
 
 }
 
+func (s *Scrago) SetDefault() *Scrago {
 
-
-func (s *Scrago) SetDefault() {
 	if s.pool == nil {
-		s.pool = make(chan struct{}, 10)
+		s.GoroPool(10)
 	}
 
 	if s.dow == nil {
 		s.Downloader(downloader.New())
 	}
 
-	if s.sch == nil{
+	if s.sch == nil {
 		s.Scheduler(scheduler.New())
 	}
 
@@ -68,7 +70,43 @@ func (s *Scrago) SetDefault() {
 		s.Pipeline(pipeline.New())
 	}
 
+	if s.prc == nil {
+		s.Processor(processor.New())
+	}
 
+	return s
 
+}
+
+func (s *Scrago) AddUrl(url string) *Scrago {
+
+	s.sch.Push(&data.Request{url})
+
+	return s
+}
+
+func (s *Scrago) Start() {
+
+	for {
+
+		time.Sleep(500 * time.Millisecond)
+
+		request := s.sch.Poll()
+
+		if request == nil {
+			log.Println(".......none url")
+			continue
+		}
+
+		f := func() {
+
+			resp, _ := s.dow.Download(request)
+
+			s.prc.Process(resp, s.sch)
+		}
+
+		s.pool.Submit(f)
+
+	}
 
 }

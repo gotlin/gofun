@@ -14,9 +14,9 @@ type MemoScheduler struct {
 
 func (m *MemoScheduler) Poll() *data.Request {
 
-	if m.queue.Item != nil {
-		req := m.queue.Item
-		m.queue = m.queue.Next
+	if m.queue.Next != nil {
+		req := m.queue.Next.Item
+		m.queue.Next = m.queue.Next.Next
 		return req
 	}
 

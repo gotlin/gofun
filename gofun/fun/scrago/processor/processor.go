@@ -1,7 +1,12 @@
 package processor
 
-import "gofun/fun/scrago/data"
+import (
+	"gofun/fun/scrago/data"
+	"gofun/fun/scrago/scheduler"
+)
 
 type Processor interface {
-	Process(req *data.Request, resp *data.Response)
+	Process(resp *data.Response, sch scheduler.Scheduler)
 }
+
+

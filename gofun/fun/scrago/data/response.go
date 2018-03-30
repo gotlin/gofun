@@ -8,10 +8,11 @@ import (
 
 type Response struct {
 
-	request *Request
+	Request *Request
 
-	Header *http.Header
-	Cookie *http.Cookie
+	HttpHeader *http.Header
+	HttpCookie *http.Cookie
+	HttpResponse *http.Response
 
 	StrBody string
 
